@@ -15,7 +15,7 @@ router.get("/random", async (req, res)=>{
 });
 
 router.get("/similar/:productId", async (req, res)=>{
-  const xs = await Product.find({});
+  //const xs = await Product.find({});
   // Need to get a part of the title from xs[productId]
   //const specific = await Product.find({title: {"Samsung Galaxy S9 G960U 64GB"});
   
@@ -26,7 +26,14 @@ router.get("/similar/:productId", async (req, res)=>{
   
   //const similar = await Product.find({title: {"/Samsung/"});
   //const similar = await Product.find({$title: {"Samsung"}});
-  res.status(200).send(similar)
+  const original = await Product.findById(req.params.productId);
+
+  const brand = original.title.split(" ")[0];
+  
+  const products = await Product.find({"title": { $regex: brand, $options: "i"}});
+
+  res.send(products);
+
 });
 
 module.exports = router;
