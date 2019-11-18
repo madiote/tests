@@ -1,8 +1,36 @@
 import React from "react";
 import Orders from "./Orders.jsx";
+import PropTypes from "prop-types";
 // import {toast} from "react-toastify";
 
 class Test5 extends React.PureComponent {
+
+  static propTypes = {
+    obj: PropTypes.object.isRequired,
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      fullName: "",
+      burger: "",
+      drink: ""
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  handleSubmit(event) {
+    this.props.obj.push("/5");
+    alert("A name was submitted: " + this.state.value);
+    event.preventDefault();
+  }
+
   render() {
     return (
       <>
