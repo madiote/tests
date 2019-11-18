@@ -1,5 +1,4 @@
 import React from "react";
-import "./css/test3.css";
 import example1 from "./images/1.png";
 import example2 from "./images/2.png";
 import example3 from "./images/3.png";
@@ -62,7 +61,7 @@ class Test3 extends React.PureComponent{
         <h3>
           Lahendus:
         </h3>
-        <form onSubmit={this.handleSubmit}>
+        <form style={{width: 300}} onSubmit={this.handleSubmit}>
           <div className={"row"}>
             <label htmlFor="username">Username</label>
             <input name="username" 
