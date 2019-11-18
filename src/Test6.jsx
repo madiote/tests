@@ -2,6 +2,28 @@ import React from "react";
 // import {toast} from "react-toastify";
 
 class Test6 extends React.PureComponent {
+
+  state = {
+    fullName: "",
+    burger: "",
+    drink: ""
+  }
+
+  handleChange = (event) => {
+    this.setState({
+        [event.target.name]: event.target.value,
+    });
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    request.get("/api/v1/orders/")
+            .then(res => this.setState({fullName: fullName,
+                                        burger:burger, 
+                                        drink:drink}))
+            .catch(err => log(err));
+  };
+
   render() {
     return (
       <>
@@ -26,15 +48,15 @@ class Test6 extends React.PureComponent {
 
         </div>
         <div className="ds">
-          <form className="ds-item style-2">
+          <form onSubmit={this.handleSubmit} className="ds-item style-2">
             <h3 className="style-2">Andmebaasi päring</h3>
             <div className={"row"}>
               <label htmlFor="fullName">Kliendi nimi</label>
-              <input name="fullName" type="text" />
+              <input onChange={this.handleChange} name="fullName" type="text" />
             </div>
             <div className={"row"}>
               <label htmlFor="burger">Burger</label>
-              <select name="burger">
+              <select onChange={this.handleChange} name="burger">
                 <option value="">-</option>
                 <option value="megaBurger">Megaburger</option>
                 <option value="baconBurger">Peekoniburger</option>
@@ -43,7 +65,7 @@ class Test6 extends React.PureComponent {
             </div>
             <div className={"row"}>
               <label htmlFor="drink">Jook</label>
-              <select name="drink">
+              <select onChange={this.handleChange} name="drink">
                 <option value="">-</option>
                 <option value="coke">Coca-Cola</option>
                 <option value="sprite">Sprite</option>

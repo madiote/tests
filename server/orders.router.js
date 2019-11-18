@@ -19,5 +19,20 @@ router.post("/", (req, res) => {
   })
 });
 
+router.get("/fullName=:fullName&burger=:burger&drink=:drink",(req, res)=>{
+  Item.find({
+    fullName: this.fullName, 
+    burger: this.burger, 
+    drink: this.drink
+  }, function(err, item) {
+      if(err){
+          console.log("Error: ", err);
+          res.status(500).send(err);
+          return;
+      }
+      res.send(item);
+  });
+});
+
 module.exports = router;
 
