@@ -19,20 +19,26 @@ router.post("/", (req, res) => {
   })
 });
 
-router.get("/fullName=:fullName&burger=:burger&drink=:drink",(req, res)=>{
-  Item.find({
-    fullName: this.fullName, 
-    burger: this.burger, 
-    drink: this.drink
-  }, function(err, item) {
-      if(err){
-          console.log("Error: ", err);
-          res.status(500).send(err);
-          return;
-      }
-      res.send(item);
+router.post("/search", (req, res) => {
+  console.log("search", req.body);
+
+  Order.find(createSearchQuery(req.body), (err, docs) => {
+    if(err) return send(500);
+    res.send(docs);
   });
+  res.send(200);
 });
+
+
+const createSearchQuery = ({fullName, drink, burger}) => {
+  const query = {};
+  if(fullName.trim().length !== 0) query.fullName = fullName;
+  if(drink.trim().length !== 0) query.drink = drink;
+  if(burger.trim().length !== 0) query.burger = burger;
+  return {
+
+  }
+};
 
 module.exports = router;
 

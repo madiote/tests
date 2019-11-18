@@ -6,7 +6,8 @@ class Test6 extends React.PureComponent {
   state = {
     fullName: "",
     burger: "",
-    drink: ""
+    drink: "",
+    orders: []
   }
 
   handleChange = (event) => {
@@ -17,11 +18,19 @@ class Test6 extends React.PureComponent {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    request.get("/api/v1/orders/")
-            .then(res => this.setState({fullName: fullName,
-                                        burger:burger, 
-                                        drink:drink}))
-            .catch(err => log(err));
+    console.log(this.state);
+    fetch("/api/v1/orders/search", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(this.state)
+    }).then( res => {
+      if(!res.ok) throw "signup failed";
+      return res.json();
+    }).then(() => {
+
+    });
   };
 
   render() {
@@ -77,6 +86,17 @@ class Test6 extends React.PureComponent {
             </button>
           </form>
 
+          <div>
+            {
+              this.state.orders.map(order => (
+              <div key={order.fullName}>
+                <div>{order.fullName}</div>
+                <div>{order.burger}</div>
+                <div>{order.drink}</div>
+              </div>
+              ))
+            }
+          </div>
 
         </div>
       </>
