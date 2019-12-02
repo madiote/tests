@@ -12,22 +12,19 @@ class Test9 extends React.PureComponent {
   }
 
   handleSubmit = (event) => {
-    if(!this.state.disabled) 
-    {
-      event.preventDefault();
-      fetch("/api/v1/users", {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json"
-          },
-          body: JSON.stringify(this.state)
-      }).then( res => res.text())
-      .then((responseText) => {
-        this.setState({responseText});
-      }).catch(err => {
-          console.log("Error", err);
-      });
-    }
+    event.preventDefault();
+    fetch("/api/v1/users", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(this.state)
+    }).then( res => res.text())
+    .then((responseText) => {
+      this.setState({responseText});
+    }).catch(err => {
+        console.log("Error", err);
+    });
   }
 
   handleChange = (e) => {
@@ -75,7 +72,7 @@ class Test9 extends React.PureComponent {
               <input name="personalCode" 
                 value={this.state.personalCode}
                 onChange={this.handleChange}
-                type="text"
+                type="number"
                 disabled = {this.state.disabled}/>
             </div>
             <div className={"row"} style={{justifyContent: "flex-end"}}>

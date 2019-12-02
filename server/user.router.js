@@ -10,26 +10,15 @@ router.get("/", async (req, res)=>{
 });
 
 router.post("/", async (req, res) => {
-  const existingUser = await User.findOne({ personalCode: req.personalCode });
-  let user;
-  if(existingUser != null){
-    user = existingUser;
-    console.log(user, "existing");
-  }
-  else {
-    user = new User(req.body);
-    console.log(user, "new");
+  const filter = {personalCode: req.body.personalCode};
+  const doc = req.body;
+  const options = {
+    upsert: true
+  };
 
-  }
-
-  user.save((err) => {
-    if(err) {
-      console.log(err);
-      res.send(500);
-    }
-    res.send(200);
-  })
+  const {n, nModified} = await User.updateOne(filter, doc, options);
+  console.log("n", n, "nModified", nModified);
+  res.send(200);
 });
 
 module.exports = router;
-
