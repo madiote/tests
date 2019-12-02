@@ -12,13 +12,22 @@ router.get("/", async (req, res)=>{
 router.post("/", async (req, res) => {
   const filter = {personalCode: req.body.personalCode};
   const doc = req.body;
+  if(req.body.fullName == "") return res.send(500);
+  if(req.body.address == "") return res.send(500);
+  if(req.body.phoneNumber == "") return res.send(500);
+  if(req.body.personalCode == "") return res.send(500);
   const options = {
     upsert: true
   };
 
-  const {n, nModified} = await User.updateOne(filter, doc, options);
-  console.log("n", n, "nModified", nModified);
-  res.send(200);
+  try {
+    const {n, nModified} = await User.updateOne(filter, doc, options);
+    console.log("n", n, "nModified", nModified);
+    res.send(200);
+  }
+  catch {
+    res.send(500);
+  }
 });
 
 module.exports = router;
