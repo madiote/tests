@@ -9,8 +9,19 @@ router.get("/", async (req, res)=>{
   res.send(xs);
 });
 
-router.post("/", (req, res) => {
-  const user = new User(req.body);
+router.post("/", async (req, res) => {
+  const existingUser = await User.findOne({ personalCode: req.personalCode });
+  let user;
+  if(existingUser != null){
+    user = existingUser;
+    console.log(user, "existing");
+  }
+  else {
+    user = new User(req.body);
+    console.log(user, "new");
+
+  }
+
   user.save((err) => {
     if(err) {
       console.log(err);
@@ -19,8 +30,6 @@ router.post("/", (req, res) => {
     res.send(200);
   })
 });
-
-/** Add something here*/
 
 module.exports = router;
 
